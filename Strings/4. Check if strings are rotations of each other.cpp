@@ -1,46 +1,45 @@
-#include <iostream>
-#include<bits/stdc++.h>
+//{ Driver Code Starts
+#include <bits/stdc++.h>
 using namespace std;
 
-bool check(string str1, string str2){
-    queue<char> q;
-    
-    if(str1.size()!=str2.size()){
-        return false;
-    }
-    
-    //push the string str2 in the queue
-    for(int i=0;i<str2.size();i++){
-        q.push(str2[i]);
-    }
-    
-    while(q.front()!=str1[0]){
-        char temp=q.front();
-        q.pop();
-        q.push(temp);
-    }
-    //now start comparing
-    int i=0;
-    while(!q.empty() && i<str1.size()){
-        if(q.front()==str1[i]){
-            i++;
-            q.pop();
+
+// } Driver Code Ends
+
+class Solution
+{
+    public:
+    //Function to check if two strings are rotations of each other or not.
+    bool areRotations(string s1,string s2)
+    {
+        string temp=s1+s1;
+        if(s1.length()!=s2.length()){
+            return false;
         }
-        else if(q.front()!=str1[i]){
+        if(temp.find(s2)!=string::npos){
+            return true;
+        }
+        else{
             return false;
         }
     }
-    return true;
-}
-int main() {
-    string str1="ABCDE",str2="CDEBA";
-    
-    if(check(str1,str2)){
-        cout<<"Strings are rotations of each other"<<endl;
-    }
-    else{
-        cout<<"Strings are not rotations of each other"<<endl;
-    }
+};
 
+//{ Driver Code Starts.
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        string s1;
+        string s2;
+        cin>>s1>>s2;
+        Solution obj;
+        cout<<obj.areRotations(s1,s2)<<endl;
+
+    }
     return 0;
 }
+
+// } Driver Code Ends
