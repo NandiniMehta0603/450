@@ -10,42 +10,54 @@ using namespace std;
 
 class Solution{   
 public:
-    int countSmallerThanMid(vector<int> &row, int mid)
-{
-  int l = 0, h = row.size() - 1;
-  while (l <= h)
-  {
-    int md = (l + h) >> 1;
-    if (row[md] <= mid)
+
+int upper_bound(vector<int>&row,int mid)
     {
-      l = md + 1;
+        int l=0,h=row.size()-1;
+        while(l<=h)
+        {
+            int md=(l+h)/2;
+            if(row[md]<=mid)
+            l=md+1;
+            else
+            h=md-1;
+        }
+        return l;
     }
-    else
+    int median(vector<vector<int>> &matrix, int r, int c)
     {
-      h = md - 1;
-    }
-  }
-  return l;
-}
-    int median(vector<vector<int>> &matrix, int R, int C)
-    {
-        // code here
-        int low = 1;
-  int high = 1e9;
-  while (low <= high)
-  {
-    int mid = (low + high) >> 1;
-    int cnt = 0;
-    for (int i = 0; i < R; i++)
-    {
-      cnt += countSmallerThanMid(matrix[i], mid);
-    }
-    if (cnt <= (R * C) / 2)
-      low = mid + 1;
-    else
-      high = mid - 1;
-  }
-  return low;
+        int min_ele=INT_MAX,max_ele=INT_MIN;
+        for(int i=0;i<r;i++)
+        {
+            min_ele=min(min_ele,matrix[0][i]) ;  // first element of each row
+            max_ele=max(max_ele,matrix[i][c-1]); // last element of each row
+        }
+        
+        int low=min_ele,high=max_ele;
+        
+        int median_pos=(r*c+1)/2;
+        while(low<=high)
+        {
+            int mid=(low+high)/2;
+            int place=0;
+            int count=0;
+            for(int i=0;i<r;i++)
+            {
+                count=upper_bound(matrix[i],mid);
+                place=place+count ;
+            }
+            
+            if(place<median_pos)
+            {
+                low=mid+1;
+            }
+            else
+            {
+                high=mid-1;
+            }
+        }
+        
+        return low ;
     }
 };
 
